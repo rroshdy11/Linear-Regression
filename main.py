@@ -23,35 +23,25 @@ for i, feature in enumerate(features):
 plt.tight_layout()
 plt.show()
 
-# postive correlation: carwidth, curbweight, enginesize, horsepower
-# negative correlation: highwaympg
 # Equation of Multiple Linear Regression Model y = theta0X0 + theta1x1 + theta2x2 + theta3x3 + theta4x4 + theta5x5
 numerical_features = ['carlength', 'carwidth', 'carheight', 'highwaympg', 'horsepower']
 numerical_data = car_data[numerical_features]
 target_data = car_data[target_feature]
-print(numerical_data.head())
-# MinMax Scaling
-X_min = np.min(numerical_data, axis=0)
-X_max = np.max(numerical_data, axis=0)
-numerical_data = (numerical_data - X_min) / (X_max - X_min)
-
 numerical_data.insert(0, 'X0', 1)
-print("After MinMax Scaling", numerical_data)
+print(numerical_data.head())
+
+
 # C. Split the dataset into training and testing sets 80% training, 20% testing
-x_train = numerical_data[:164]
-y_train = target_data[:164]
-x_test = numerical_data[164:]
-y_test = target_data[164:]
+x_train = np.array(numerical_data.iloc[:164])
+y_train = np.array(target_data.iloc[:164])
+x_test = np.array(numerical_data.iloc[164:])
+y_test = np.array(target_data.iloc[164:])
 print("x_train", x_train)
 print("y_train", y_train)
-# transform the data into numpy arrays
-X_train = np.array(x_train)
-Y_train = np.array(y_train)
-X_test = np.array(x_test)
-Y_test = np.array(y_test)
-# create Array of thetas
+
+# create Array of thetas with 0 values as initial values
 thetas = np.array([0, 0, 0, 0, 0, 0])
-print("Array Of Thetas ", thetas)
+print("Array Of Thetas before Gradient Descent ", thetas)
 
 
 # cost function J(theta)=1/2m * sum((theta0X0 + theta1X1 ....+ theta5X5)-y)^2
@@ -65,7 +55,7 @@ def cost_function(x_train, y_train, thetas):
 
 def gradient_descent(x, y, thetas):
     m = len(y)
-    alpha = 0.001
+    alpha = 0.00003
     iterations = 2000
     cost_history = [0] * iterations
     for iteration in range(iterations):
@@ -79,14 +69,24 @@ def gradient_descent(x, y, thetas):
 
 
 # start training the model
-(thetas, all_costs) = gradient_descent(X_train, Y_train, thetas)
-for i in range(len(thetas)):
-    print('Theta ', i, " ", thetas[i])
+(thetas, all_costs) = gradient_descent(x_train, y_train, thetas)
+
+#print Every X value and the Theta
+print("Optimal Thetas  ")
+print("Theta 0 ", thetas[0])
+for i in range(1, len(thetas)-1):
+    print(numerical_features[i-1], " ", thetas[i])
+print(numerical_features[len(numerical_features)-1], " ", thetas[len(numerical_features)])
 
 # plot the cost function
 plt.plot(all_costs)
-plt.xlabel("Iterations")
-plt.ylabel("Cost")
+plt.xlabel("cost")
+plt.ylabel("iterations")
 plt.title("Cost Function")
 plt.show()
 
+# D. Test the model
+y_pred = x_test.dot(thetas)
+print("y_predected ", y_pred)
+accuracy = 1 - np.mean(np.abs((y_pred - y_test) / y_test))
+print("Accuracy ", accuracy)
