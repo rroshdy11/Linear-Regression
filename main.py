@@ -26,7 +26,7 @@ plt.show()
 # postive correlation: carwidth, curbweight, enginesize, horsepower
 # negative correlation: highwaympg
 # Equation of Multiple Linear Regression Model y = theta0X0 + theta1x1 + theta2x2 + theta3x3 + theta4x4 + theta5x5
-numerical_features = ['carlength', 'carwidth', 'curbweight', 'highwaympg', 'horsepower']
+numerical_features = ['carlength', 'carwidth', 'carheight', 'highwaympg', 'horsepower']
 numerical_data = car_data[numerical_features]
 target_data = car_data[target_feature]
 print(numerical_data.head())
@@ -34,6 +34,7 @@ print(numerical_data.head())
 X_min = np.min(numerical_data, axis=0)
 X_max = np.max(numerical_data, axis=0)
 numerical_data = (numerical_data - X_min) / (X_max - X_min)
+
 numerical_data.insert(0, 'X0', 1)
 print("After MinMax Scaling", numerical_data)
 # C. Split the dataset into training and testing sets 80% training, 20% testing
@@ -41,6 +42,8 @@ x_train = numerical_data[:164]
 y_train = target_data[:164]
 x_test = numerical_data[164:]
 y_test = target_data[164:]
+print("x_train", x_train)
+print("y_train", y_train)
 # transform the data into numpy arrays
 X_train = np.array(x_train)
 Y_train = np.array(y_train)
