@@ -55,8 +55,8 @@ def cost_function(x_train, y_train, thetas):
 
 def gradient_descent(x, y, thetas):
     m = len(y)
-    alpha = 0.00003
-    iterations = 2000
+    alpha = 0.00001
+    iterations = 1000
     cost_history = [0] * iterations
     for iteration in range(iterations):
         hypothesis = x.dot(thetas)
