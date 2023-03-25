@@ -23,7 +23,7 @@ for i, feature in enumerate(features):
 plt.tight_layout()
 plt.show()
 
-# Equation of Multiple Linear Regression Model y = theta0X0 + theta1x1 + theta2x2 + theta3x3 + theta4x4 + theta5x5
+# Selecting features based on scatter plots and add a column of 1s for theta0
 numerical_features = ['carlength', 'carwidth', 'carheight', 'highwaympg', 'horsepower']
 numerical_data = car_data[numerical_features]
 target_data = car_data[target_feature]
@@ -52,17 +52,23 @@ def cost_function(x_train, y_train, thetas):
 
 
 # Gradient Descent
-
+# theta0 = theta0 - alpha * 1/m * sum((theta0X0 + theta1X1 ....+ theta5X5)-y)
 def gradient_descent(x, y, thetas):
     m = len(y)
     alpha = 0.00000072
     iterations = 1000
+    # array to store the cost function for every iteration initally all values are 0
     cost_history = [0] * iterations
     for iteration in range(iterations):
+        # Hypothesis values for all X values h(x)=theta0X0 + theta1X1 ....+ theta5X5
         hypothesis = x.dot(thetas)
+        # Difference between Hypothesis and Actual Y
         error = hypothesis - y
-        gradient = x.T.dot(error) / m
-        thetas = thetas - alpha * gradient
+        # partial derivative of cost function with respect to theta0
+        Partial_Drev = x.T.dot(error) / m
+        # Gradient Descent
+        thetas = thetas - alpha * Partial_Drev
+        # calc the cost function to the iteration
         cost = cost_function(x, y, thetas)
         cost_history[iteration] = cost
     return thetas, cost_history
