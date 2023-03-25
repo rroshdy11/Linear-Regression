@@ -30,9 +30,8 @@ numerical_features = ['carlength', 'carwidth', 'curbweight', 'highwaympg', 'hors
 numerical_data = car_data[numerical_features]
 target_data = car_data[target_feature]
 print(numerical_data.head())
-
 numerical_data.insert(0, 'x0', 1)
-print("After MinMax Scaling", numerical_data)
+
 # C. Split the dataset into training and testing sets 80% training, 20% testing
 x_train = numerical_data[:164]
 y_train = target_data[:164]
