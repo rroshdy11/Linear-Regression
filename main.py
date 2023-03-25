@@ -55,7 +55,7 @@ print("Array Of Thetas ", thetas)
 def gradient_descent(x, y, thetas):
     m = len(y)
     alpha = 0.0001
-    iterations = 3000
+    iterations = 1000
     J_history = [0] * iterations
     for iteration in range(iterations):
         hypothesis = x.dot(thetas)
@@ -78,7 +78,3 @@ plt.ylabel("Cost")
 plt.title("Cost Function")
 plt.show()
 
-# D. Test the model
-# calculate the cost function for the test set
-cost = cost_function(X_test, Y_test, thetas)
-print("Cost on test set ", cost)
